@@ -1,0 +1,472 @@
+MySQL Shell 8.0.14
+
+Copyright (c) 2016, 2019, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 30
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > show tables;
++-----------------+
+| Tables_in_eva_1 |
++-----------------+
+| copia_actor     |
+| copia_city      |
+| copia_country   |
+| copia_tabla     |
+| datos_actor     |
+| empleados       |
+| primer_tabla    |
++-----------------+
+7 rows in set (0.0014 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create table paises(
+                                      -> id int,
+                                      -> nombre varchar(50),
+                                      -> continente varchar(50),
+                                      -> poblacion int);
+Query OK, 0 rows affected (1.1228 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > show tables;
++-----------------+
+| Tables_in_eva_1 |
++-----------------+
+| copia_actor     |
+| copia_city      |
+| copia_country   |
+| copia_tabla     |
+| datos_actor     |
+| empleados       |
+| paises          |
+| primer_tabla    |
++-----------------+
+8 rows in set (0.0018 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int(11)     | YES  |     | NULL    |       |
+| nombre     | varchar(50) | YES  |     | NULL    |       |
+| continente | varchar(50) | YES  |     | NULL    |       |
+| poblacion  | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.0027 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises values(1, "Mexico", "America", 120000000);
+Query OK, 1 row affected (0.3428 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int(11)     | YES  |     | NULL    |       |
+| nombre     | varchar(50) | YES  |     | NULL    |       |
+| continente | varchar(50) | YES  |     | NULL    |       |
+| poblacion  | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.0021 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+--------+------------+-----------+
+| id | nombre | continente | poblacion |
++----+--------+------------+-----------+
+|  1 | Mexico | America    | 120000000 |
++----+--------+------------+-----------+
+1 row in set (0.0009 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises values(1, "Mexico", "America", 120000000);
+Query OK, 1 row affected (0.2707 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+--------+------------+-----------+
+| id | nombre | continente | poblacion |
++----+--------+------------+-----------+
+|  1 | Mexico | America    | 120000000 |
+|  1 | Mexico | America    | 120000000 |
++----+--------+------------+-----------+
+2 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > delete from paises;
+Query OK, 2 rows affected (0.2517 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int(11)     | YES  |     | NULL    |       |
+| nombre     | varchar(50) | YES  |     | NULL    |       |
+| continente | varchar(50) | YES  |     | NULL    |       |
+| poblacion  | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.0021 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
+Empty set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select version();
++-----------+
+| version() |
++-----------+
+| 8.0.14    |
++-----------+
+1 row in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change id id int key auto_increment;
+
+Query OK, 0 rows affected (3.1961 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | YES  |     | NULL    |                |
+| continente | varchar(50) | YES  |     | NULL    |                |
+| poblacion  | int(11)     | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0019 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises (nombre, continente, poblacion)
+                                      -> values( "Mexico", "America", 120000000);
+Query OK, 1 row affected (0.2449 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | YES  |     | NULL    |                |
+| continente | varchar(50) | YES  |     | NULL    |                |
+| poblacion  | int(11)     | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0026 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+--------+------------+-----------+
+| id | nombre | continente | poblacion |
++----+--------+------------+-----------+
+|  1 | Mexico | America    | 120000000 |
++----+--------+------------+-----------+
+1 row in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises (nombre, continente, poblacion) values( "Mexico", "America", 120000000);
+Query OK, 1 row affected (0.4124 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+--------+------------+-----------+
+| id | nombre | continente | poblacion |
++----+--------+------------+-----------+
+|  1 | Mexico | America    | 120000000 |
+|  2 | Mexico | America    | 120000000 |
++----+--------+------------+-----------+
+2 rows in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > delete from paises where id > 1;
+Query OK, 1 row affected (0.2503 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+--------+------------+-----------+
+| id | nombre | continente | poblacion |
++----+--------+------------+-----------+
+|  1 | Mexico | America    | 120000000 |
++----+--------+------------+-----------+
+1 row in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change nombre nombre varchar(50) unique;
+Query OK, 0 rows affected (4.2374 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+--------+------------+-----------+
+| id | nombre | continente | poblacion |
++----+--------+------------+-----------+
+|  1 | Mexico | America    | 120000000 |
++----+--------+------------+-----------+
+1 row in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises (nombre, continente, poblacion) values( "Guatemala", "America", 20000000);
+Query OK, 1 row affected (0.2846 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
++----+-----------+------------+-----------+
+2 rows in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises ( continente, poblacion)
+                                      -> values( "America", 20000000);
+Query OK, 1 row affected (0.3350 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  4 | NULL      | America    |  20000000 |
++----+-----------+------------+-----------+
+3 rows in set (0.0006 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > delete from paises where nombre = null;
+Query OK, 0 rows affected (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  4 | NULL      | America    |  20000000 |
++----+-----------+------------+-----------+
+3 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > delete from paises where id =4;
+Query OK, 1 row affected (0.2594 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
++----+-----------+------------+-----------+
+2 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change nombre nombre varchar(50)
+                                      -> unique not null;
+Query OK, 0 rows affected, 1 warning (3.7416 sec)
+
+Records: 0  Duplicates: 0  Warnings: 1
+Warning (code 1831): Duplicate index 'nombre_2' defined on the table 'eva_1.paises'. This is deprecated and will be disallowed in a future release.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
++----+-----------+------------+-----------+
+2 rows in set (0.0009 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | NO   | UNI | NULL    |                |
+| continente | varchar(50) | YES  |     | NULL    |                |
+| poblacion  | int(11)     | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0029 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
++----+-----------+------------+-----------+
+2 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises(nombre, continente, poblacion)
+                                      -> values("Canada", "America", 20000000);
+Query OK, 1 row affected (0.2137 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  5 | Canada    | America    |  20000000 |
++----+-----------+------------+-----------+
+3 rows in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises (nombre, continente, poblacion)
+                                      -> values("Canada", "HAmerica", 20000000);
+ERROR: 1062 (23000): Duplicate entry 'Canada' for key 'nombre'
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises (nombre, continente, poblacion)
+                                      -> values("Canadaa", "HAmerica", 20000000);
+Query OK, 1 row affected (0.3405 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  5 | Canada    | America    |  20000000 |
+|  7 | Canadaa   | HAmerica   |  20000000 |
++----+-----------+------------+-----------+
+4 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > update paises
+                                      -> set continente = "America"
+                                      -> id = 10;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id = 10' at line 3
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > update paises
+                                      -> set continente = "America"
+                                      -> where id = 10;
+Query OK, 0 rows affected (0.0924 sec)
+
+Rows matched: 0  Changed: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  5 | Canada    | America    |  20000000 |
+|  7 | Canadaa   | HAmerica   |  20000000 |
++----+-----------+------------+-----------+
+4 rows in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > update paises set continente = "America"
+                                      -> where id = 7;
+Query OK, 1 row affected (0.2505 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  5 | Canada    | America    |  20000000 |
+|  7 | Canadaa   | America    |  20000000 |
++----+-----------+------------+-----------+
+4 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > update paises set continente = "America"
+                                      -> where id = 7;
+Query OK, 0 rows affected (0.0012 sec)
+
+Rows matched: 1  Changed: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  5 | Canada    | America    |  20000000 |
+|  7 | Canadaa   | America    |  20000000 |
++----+-----------+------------+-----------+
+4 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > delete from paises where id = 7;
+Query OK, 1 row affected (0.2625 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  5 | Canada    | America    |  20000000 |
++----+-----------+------------+-----------+
+3 rows in set (0.0007 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change continente continente enum(
+                                      -> "America", "Europa", "Ociania", "Africa");
+Query OK, 3 rows affected (5.9345 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises (nombre, continente, poblacion)
+                                      -> values("Colombia", "America", 20000000);
+Query OK, 1 row affected (0.2162 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+-----------+------------+-----------+
+| id | nombre    | continente | poblacion |
++----+-----------+------------+-----------+
+|  1 | Mexico    | America    | 120000000 |
+|  3 | Guatemala | America    |  20000000 |
+|  5 | Canada    | America    |  20000000 |
+|  8 | Colombia  | America    |  20000000 |
++----+-----------+------------+-----------+
+4 rows in set (0.0009 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > drop table paises;
+Query OK, 0 rows affected (0.8468 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
+ERROR: 1146 (42S02): Table 'eva_1.paises' doesn't exist
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create tabla paises(
+                                      -> id int,
+                                      -> nombre varchar(50),
+                                      -> continente varchar(50),
+                                      -> poblacion int);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tabla paises(
+id int,
+nombre varchar(50),
+continente varchar(50),
+poblacion int)' at line 1
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create table paises(
+                                      -> id int,
+                                      -> nombre varchar(50)
+                                      -> ,continente varchar(50),
+                                      -> poblacion int);
+Query OK, 0 rows affected (1.1093 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int(11)     | YES  |     | NULL    |       |
+| nombre     | varchar(50) | YES  |     | NULL    |       |
+| continente | varchar(50) | YES  |     | NULL    |       |
+| poblacion  | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.0024 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change id id int key auto_increment;
+Query OK, 0 rows affected (4.5905 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change nombre nombre varchar(50) unique;
+Query OK, 0 rows affected (1.3884 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change nombre nombre varchar(50)
+                                      -> unique not null;
+Query OK, 0 rows affected, 1 warning (3.4216 sec)
+
+Records: 0  Duplicates: 0  Warnings: 1
+Warning (code 1831): Duplicate index 'nombre_2' defined on the table 'eva_1.paises'. This is deprecated and will be disallowed in a future release.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter table paises change continente continente enum
+                                      -> ("America", "Europa", "Ociania", "Africa");
+Query OK, 0 rows affected (4.7392 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0

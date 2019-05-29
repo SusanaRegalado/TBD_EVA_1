@@ -1,0 +1,297 @@
+MySQL Shell 8.0.14
+
+Copyright (c) 2016, 2019, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > show tables;
++-----------------+
+| Tables_in_eva_1 |
++-----------------+
+| copia_actor     |
+| copia_city      |
+| copia_country   |
+| copia_tabla     |
+| datos_actor     |
+| empleados       |
+| paises          |
+| primer_tabla    |
++-----------------+
+8 rows in set (0.0020 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc empleados;
++-------------------+-------------------------------------+------+-----+--------------------+-------------------+
+| Field             | Type                                | Null | Key | Default            | Extra             |
++-------------------+-------------------------------------+------+-----+--------------------+-------------------+
+| id                | int(11)                             | NO   | PRI | NULL               | auto_increment    |
+| id_depto          | varchar(50)                         | YES  | UNI | NULL               |                   |
+| nombre            | varchar(50)                         | NO   | UNI | NULL               |                   |
+| apellido          | varchar(50)                         | NO   | UNI | NULL               |                   |
+| iniciales         | varchar(10)                         | YES  |     | NULL               |                   |
+| fecha_nacimiento  | date                                | NO   |     | NULL               |                   |
+| rfc               | varchar(13)                         | YES  |     | NULL               |                   |
+| nss               | varchar(50)                         | NO   | UNI | NULL               |                   |
+| ciudad_nacimiento | text                                | YES  |     | NULL               |                   |
+| estado            | enum('CUU','CDM','BCN','BCS','SON') | YES  |     | NULL               |                   |
+| pais              | varchar(50)                         | YES  |     | _utf8mb4\'Mexico\' | DEFAULT_GENERATED |
+| celular           | varchar(50)                         | YES  |     | NULL               |                   |
+| tel_fijo          | varchar(20)                         | YES  |     | NULL               |                   |
+| salario           | int(11)                             | YES  |     | 3000               | DEFAULT_GENERATED |
++-------------------+-------------------------------------+------+-----+--------------------+-------------------+
+14 rows in set (0.0027 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create user "consultas"@"localhost" idenified by "root";
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'idenified by "root"' at line 1
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create user "consultas"@"localhost" identified by "root";
+Query OK, 0 rows affected (0.5335 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc empleados;
++-------------------+-------------------------------------+------+-----+--------------------+-------------------+
+| Field             | Type                                | Null | Key | Default            | Extra             |
++-------------------+-------------------------------------+------+-----+--------------------+-------------------+
+| id                | int(11)                             | NO   | PRI | NULL               | auto_increment    |
+| id_depto          | varchar(50)                         | YES  | UNI | NULL               |                   |
+| nombre            | varchar(50)                         | NO   | UNI | NULL               |                   |
+| apellido          | varchar(50)                         | NO   | UNI | NULL               |                   |
+| iniciales         | varchar(10)                         | YES  |     | NULL               |                   |
+| fecha_nacimiento  | date                                | NO   |     | NULL               |                   |
+| rfc               | varchar(13)                         | YES  |     | NULL               |                   |
+| nss               | varchar(50)                         | NO   | UNI | NULL               |                   |
+| ciudad_nacimiento | text                                | YES  |     | NULL               |                   |
+| estado            | enum('CUU','CDM','BCN','BCS','SON') | YES  |     | NULL               |                   |
+| pais              | varchar(50)                         | YES  |     | _utf8mb4\'Mexico\' | DEFAULT_GENERATED |
+| celular           | varchar(50)                         | YES  |     | NULL               |                   |
+| tel_fijo          | varchar(20)                         | YES  |     | NULL               |                   |
+| salario           | int(11)                             | YES  |     | 3000               | DEFAULT_GENERATED |
++-------------------+-------------------------------------+------+-----+--------------------+-------------------+
+14 rows in set (0.0029 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > grant select (nombre, apellido, fecha_nacimiento);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > grant select (nombre,apellido, fecha_nacimiento) on eva_1.empleados to "consultas"@"localhost";
+Query OK, 0 rows affected (0.6051 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > \connect --mc consultas@localhost
+Creating a Classic session to 'consultas@localhost'
+Please provide the password for 'consultas@localhost': ****
+Save password for 'consultas@localhost'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 9
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > show tables;
++-----------------+
+| Tables_in_eva_1 |
++-----------------+
+| empleados       |
++-----------------+
+1 row in set (0.0019 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from empleados;
+ERROR: 1143 (42000): SELECT command denied to user 'consultas'@'localhost' for column 'id' in table 'empleados'
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select nombre, apellido, fecha_nacimiento from empleados;
+Empty set (0.0912 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > gran all on eva_1.* to "consultas"@"localhost";
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'gran all on eva_1.* to "consultas"@"localhost"' at line 1
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 10
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > desc paises;
++------------+---------------------------------------------+------+-----+---------+----------------+
+| Field      | Type                                        | Null | Key | Default | Extra          |
++------------+---------------------------------------------+------+-----+---------+----------------+
+| id         | int(11)                                     | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50)                                 | NO   | UNI | NULL    |                |
+| continente | enum('America','Europa','Ociania','Africa') | YES  |     | NULL    |                |
+| poblacion  | int(11)                                     | YES  |     | NULL    |                |
++------------+---------------------------------------------+------+-----+---------+----------------+
+4 rows in set (0.0018 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > grant insert (nombre) on
+                                      -> eva_1.paises
+                                      -> to "consultas"@"localhost";
+Query OK, 0 rows affected (0.1643 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > \connect --mc consultas@localhost
+Creating a Classic session to 'consultas@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 11
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > show tables;
++-----------------+
+| Tables_in_eva_1 |
++-----------------+
+| empleados       |
+| paises          |
++-----------------+
+2 rows in set (0.0018 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises(nombre)
+                                      -> values ("cukamonga");
+Query OK, 1 row affected (0.6167 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises(nombre)
+                                      -> values ("paranguatirimicuaro");
+Query OK, 1 row affected (0.2663 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 12
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select * from paises;
++----+---------------------+------------+-----------+
+| id | nombre              | continente | poblacion |
++----+---------------------+------------+-----------+
+|  1 | cukamonga           | NULL       |      NULL |
+|  2 | paranguatirimicuaro | NULL       |      NULL |
++----+---------------------+------------+-----------+
+2 rows in set (0.0008 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > revoke insert on eva_1.paises
+                                      -> from "consultas"@"localhost";
+Query OK, 0 rows affected (0.2576 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > \connect --mc consultas@localhost
+Creating a Classic session to 'consultas@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 13
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > show tables;
++-----------------+
+| Tables_in_eva_1 |
++-----------------+
+| empleados       |
++-----------------+
+1 row in set (0.0017 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > insert into paises (nombre) values ("hola");
+ERROR: 1142 (42000): INSERT command denied to user 'consultas'@'localhost' for table 'paises'
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for autocompletion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 14
+Server version: 8.0.14 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use eva_1
+Default schema set to `eva_1`.
+Fetching table and column names from `eva_1` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > alter user "consultas"@"localhost"
+                                      -> identified by "root"
+                                      -> ;
+Query OK, 0 rows affected (0.3607 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create user "usuario_1"@"localhot" identified by "root";
+Query OK, 0 rows affected (0.2524 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > grant all on eva_1.* to "usuario_1"@"localhost";
+ERROR: 1410 (42000): You are not allowed to create a user with GRANT
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > grant all on eva_1.* to "usuario_1"@"localhost";
+ERROR: 1410 (42000): You are not allowed to create a user with GRANT
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select user, host from mysql.user;
++------------------+-----------+
+| user             | host      |
++------------------+-----------+
+| consultas        | localhost |
+| mysql.infoschema | localhost |
+| mysql.session    | localhost |
+| mysql.sys        | localhost |
+| root             | localhost |
+| usuario_2        | localhost |
+| usuario_3        | localhost |
+| usuario_4        | localhost |
+| usuario_5        | localhost |
+| usuario_1        | localhot  |
++------------------+-----------+
+10 rows in set (0.0010 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > drop user "usuario_1"@"localhot";
+Query OK, 0 rows affected (0.6082 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create user "usuario_1"@"localhost" identified by "root";
+Query OK, 0 rows affected (0.2937 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > grant all on eva_1.* to "usuario_1"@"localhost";
+Query OK, 0 rows affected (0.2208 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > select user, host from mysql.user;
++------------------+-----------+
+| user             | host      |
++------------------+-----------+
+| consultas        | localhost |
+| mysql.infoschema | localhost |
+| mysql.session    | localhost |
+| mysql.sys        | localhost |
+| root             | localhost |
+| usuario_1        | localhost |
+| usuario_2        | localhost |
+| usuario_3        | localhost |
+| usuario_4        | localhost |
+| usuario_5        | localhost |
++------------------+-----------+
+10 rows in set (0.0009 sec)
+
+ MySQL  localhost:3306 ssl  eva_1  SQL > create "usuario_actor"@"localhost" identified by "root";
